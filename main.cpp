@@ -1,6 +1,12 @@
 #include "raylib.h"
 #include "NodeMap.h"
-#include "PathAgent.h"
+#include "Agent.h"
+#include "GotoBehaviour.h"
+#include "WanderBehaviour.h"
+#include "FollowBehaviour.h"
+#include "SelectorBehaviour.h"
+#include "DistanceCondition.h"
+#include "FiniteStateMachine.h"
 #include <string>
 #include <vector>
 
@@ -31,9 +37,31 @@ int main()
 	Node* end = map.GetNode(10, 2);
 
 	//Agent setup
-	PathAgent agent;
-	agent.SetNode(start);
-	agent.SetSpeed(64);
+	Agent agent(&map, new GotoBehaviour());
+	agent.GetPathAgent().SetNode(start);
+	agent.GetPathAgent().SetSpeed(64);
+	agent.SetColour(Color{ 0,255,0,255 });
+
+	Agent agent2(&map, new WanderBehaviour());
+	agent2.GetPathAgent().SetNode(map.GetRandomNode());
+	agent2.GetPathAgent().SetSpeed(64);
+
+	DistanceCondition* closerThan5 = new DistanceCondition(5.0f * map.GetCellSize(), true);
+	DistanceCondition* furtherThan7 = new DistanceCondition(7.0f * map.GetCellSize(), false);
+
+	State* wanderState = new State(new WanderBehaviour());
+	State* followState = new State(new FollowBehaviour());
+	wanderState->AddTransition(closerThan5, followState);
+	followState->AddTransition(furtherThan7, wanderState);
+
+	FiniteStateMachine* fsm = new FiniteStateMachine(wanderState);
+	fsm->AddState(wanderState);
+	fsm->AddState(followState);
+
+	Agent agent3(&map, fsm);
+	agent3.GetPathAgent().SetNode(map.GetRandomNode());
+	agent3.SetTarget(&agent);
+	agent3.GetPathAgent().SetSpeed(32);
 
 	//Get path
 	//std::vector<Node*> nodeMapPath = NodeMap::DijkstraSearch(start, end);
@@ -47,25 +75,20 @@ int main()
 
 		ClearBackground(BLACK);
 		
+		//Draw all connections
 		map.Draw(true);
-		map.DrawPath(agent.GetPath(), lineColour);
+		//Draw selected path
+		map.DrawPath(agent.GetPathAgent().GetPath(), lineColour);
 
-		if (IsMouseButtonPressed(0))
-		{
-			Vector2 mousePos = GetMousePosition();
-			end = map.GetClosestNode(glm::vec2(mousePos.x, mousePos.y));
-			agent.GoToNode(end);
-		}
-
-		/*if (IsMouseButtonPressed(1))
-		{
-			Vector2 mousePos = GetMousePosition();
-			end = map.GetClosestNode(glm::vec2(mousePos.x, mousePos.y));
-			nodeMapPath = NodeMap::DijkstraSearch(start, end);
-		}*/
+		//Agent update/draw
 		agent.Update(deltaTime);
 		agent.Draw();
 
+		agent2.Update(deltaTime);
+		agent2.Draw();
+
+		agent3.Update(deltaTime);
+		agent3.Draw();
 
 		EndDrawing();
 	}

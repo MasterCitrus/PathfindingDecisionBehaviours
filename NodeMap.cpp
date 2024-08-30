@@ -240,3 +240,20 @@ Node* NodeMap::GetClosestNode(glm::vec2 worldPos)
 	if (j < 0 || j >= m_height) return nullptr;
 	return GetNode(i, j);
 }
+
+Node* NodeMap::GetRandomNode()
+{
+	Node* node = nullptr;
+	while (node == nullptr)
+	{
+		int x = rand() % m_width;
+		int y = rand() % m_height;
+		node = GetNode(x, y);
+	}
+	return node;
+}
+
+float NodeMap::GetCellSize()
+{
+	return m_cellSize;
+}

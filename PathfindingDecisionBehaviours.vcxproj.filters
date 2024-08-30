@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Behaviours">
+      <UniqueIdentifier>{328ede1c-150b-46f8-8255-8809c065deb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Conditions">
+      <UniqueIdentifier>{da4c4d0d-437d-4c80-b6c4-51fad78df52c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Behaviour">
+      <UniqueIdentifier>{b806fbaf-9459-4cd2-9634-88916cb7dc2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Condition">
+      <UniqueIdentifier>{217ab6ab-eb31-4240-abfe-b28e65f26b93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,6 +39,30 @@
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GotoBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="WanderBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectorBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FiniteStateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NodeMap.h">
@@ -37,6 +73,36 @@
     </ClInclude>
     <ClInclude Include="Pathfinding.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Condition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FiniteStateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceCondition.h">
+      <Filter>Header Files\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="GotoBehaviour.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowBehaviour.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectorBehaviour.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="WanderBehaviour.h">
+      <Filter>Header Files\Behaviour</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

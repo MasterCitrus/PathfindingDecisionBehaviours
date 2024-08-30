@@ -30,11 +30,6 @@ void PathAgent::GoToNode(Node* node)
 	m_currentIndex = 0;
 }
 
-void PathAgent::Draw()
-{
-	DrawCircle((int)m_position.x, (int)m_position.y, 8, { 255,255,0,255 });
-}
-
 void PathAgent::SetNode(Node* node)
 {
 	m_currentNode = node;
@@ -49,4 +44,9 @@ void PathAgent::SetSpeed(float speed)
 std::vector<Node*> PathAgent::GetPath()
 {
 	return m_path;
+}
+
+glm::vec2 PathAgent::GetPosition() const
+{
+	return m_position;
 }
