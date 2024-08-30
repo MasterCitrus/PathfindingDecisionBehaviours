@@ -7,6 +7,7 @@
 #include "SelectorBehaviour.h"
 #include "DistanceCondition.h"
 #include "FiniteStateMachine.h"
+#include "UtilityAI.h"
 #include <string>
 #include <vector>
 
@@ -15,7 +16,7 @@ int main()
 	int screenWidth = 800;
 	int screenHeight = 450;
 
-	InitWindow(screenWidth, screenHeight, "A* Path");
+	InitWindow(screenWidth, screenHeight, "Pathfinding");
 
 	SetTargetFPS(60);
 
@@ -46,19 +47,25 @@ int main()
 	agent2.GetPathAgent().SetNode(map.GetRandomNode());
 	agent2.GetPathAgent().SetSpeed(64);
 
-	DistanceCondition* closerThan5 = new DistanceCondition(5.0f * map.GetCellSize(), true);
-	DistanceCondition* furtherThan7 = new DistanceCondition(7.0f * map.GetCellSize(), false);
+	//Finite State Machine for Agent 3
+	DistanceCondition* closerThan2half = new DistanceCondition(2.5f * map.GetCellSize(), true);
+	DistanceCondition* furtherThan4 = new DistanceCondition(4.0f * map.GetCellSize(), false);
 
 	State* wanderState = new State(new WanderBehaviour());
 	State* followState = new State(new FollowBehaviour());
-	wanderState->AddTransition(closerThan5, followState);
-	followState->AddTransition(furtherThan7, wanderState);
+	wanderState->AddTransition(closerThan2half, followState);
+	followState->AddTransition(furtherThan4, wanderState);
 
 	FiniteStateMachine* fsm = new FiniteStateMachine(wanderState);
 	fsm->AddState(wanderState);
 	fsm->AddState(followState);
 
-	Agent agent3(&map, fsm);
+	//Utility AI for Agent 3
+	UtilityAI* utilityAI = new UtilityAI();
+	utilityAI->AddBehaviour(new WanderBehaviour());
+	utilityAI->AddBehaviour(new FollowBehaviour());
+
+	Agent agent3(&map, utilityAI);
 	agent3.GetPathAgent().SetNode(map.GetRandomNode());
 	agent3.SetTarget(&agent);
 	agent3.GetPathAgent().SetSpeed(32);

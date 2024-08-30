@@ -15,9 +15,19 @@ State::~State()
 	for (Transition t : m_transitions) delete t.condition;
 }
 
+void State::Enter(Agent* agent)
+{
+	for (Behaviour* b : m_behaviours) b->Enter(agent);
+}
+
 void State::Update(Agent* agent, float deltaTime)
 {
 	for (Behaviour* b : m_behaviours) b->Update(agent, deltaTime);
+}
+
+void State::Exit(Agent* agent)
+{
+	for (Behaviour* b : m_behaviours) b->Exit(agent);
 }
 
 void State::AddTransition(Condition* condition, State* state)

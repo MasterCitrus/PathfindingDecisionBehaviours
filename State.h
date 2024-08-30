@@ -18,9 +18,9 @@ public:
 		State* targetState;
 	};
 
-	virtual void Enter(Agent* agent) {}
+	virtual void Enter(Agent* agent);
 	virtual void Update(Agent* agent, float deltaTime);
-	virtual void Exit(Agent* agent) {}
+	virtual void Exit(Agent* agent);
 
 	void AddTransition(Condition* condition, State* state);
 

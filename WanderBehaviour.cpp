@@ -14,3 +14,13 @@ void WanderBehaviour::Enter(Agent* agent)
 	agent->SetColour({ 0, 255, 255, 255 });
 	agent->Reset();
 }
+
+float WanderBehaviour::Evaluate(Agent* agent)
+{
+	Agent* target = agent->GetTarget();
+	float distance = glm::distance(target->GetPosition(), agent->GetPosition());
+
+	float eval = distance;
+	if (eval < 0) eval = 0;
+	return eval;
+}

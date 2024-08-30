@@ -9,6 +9,8 @@ public:
 
 	virtual void Enter(Agent* agent) override;
 
+	virtual float Evaluate(Agent* agent) override;
+
 private:
 	glm::vec2 lastTargetPosition;
 };

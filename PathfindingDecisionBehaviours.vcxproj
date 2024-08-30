@@ -150,6 +150,7 @@
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="SelectorBehaviour.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="UtilityAI.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="SelectorBehaviour.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="UtilityAI.h" />
     <ClInclude Include="WanderBehaviour.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -63,6 +63,9 @@
     <ClCompile Include="DistanceCondition.cpp">
       <Filter>Source Files\Conditions</Filter>
     </ClCompile>
+    <ClCompile Include="UtilityAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NodeMap.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="WanderBehaviour.h">
       <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityAI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
