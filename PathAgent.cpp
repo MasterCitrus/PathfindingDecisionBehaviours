@@ -1,13 +1,13 @@
 #include "PathAgent.h"
 #include "NodeMap.h"
 
+
 void PathAgent::Update(float deltaTime)
 {
-	if (m_path.empty()) return;
+	if (m_smoothPath.empty()) return;
 
-	Node* nextNode = m_path[m_currentIndex + 1];
-	float distance = glm::distance(m_position, nextNode->position);
-	glm::vec2 normal = glm::normalize(nextNode->position - m_position);
+	float distance = glm::distance(m_position, m_currentNodePosition);
+	glm::vec2 normal = glm::normalize(m_currentNodePosition - m_position);
 	distance -= m_speed * deltaTime;
 	if (distance > 0)
 	{
@@ -15,12 +15,17 @@ void PathAgent::Update(float deltaTime)
 	}
 	else
 	{
-		if (m_currentIndex < m_path.size() - 2)
+		m_currentIndex++;
+		if (m_currentIndex >= m_smoothPath.size())
 		{
-			m_currentIndex++;
-			m_currentNode = nextNode;
+			m_position = m_currentNodePosition;
+			m_smoothPath.clear();
 		}
-		else m_path.clear(); m_currentNode = nextNode;
+		else
+		{
+			glm::vec2 oldNode = m_currentNodePosition;
+			m_currentNodePosition = m_smoothPath[m_currentIndex];
+		}
 	}
 }
 
@@ -44,6 +49,11 @@ void PathAgent::SetSpeed(float speed)
 std::vector<Node*> PathAgent::GetPath()
 {
 	return m_path;
+}
+
+std::vector<glm::vec2> PathAgent::GetSmoothPath()
+{
+	return m_smoothPath;
 }
 
 glm::vec2 PathAgent::GetPosition() const

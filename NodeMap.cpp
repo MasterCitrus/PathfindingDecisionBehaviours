@@ -54,29 +54,26 @@ void NodeMap::Intialise(std::vector<std::string> asciiMap, int cellSize)
 	}
 }
 
-void NodeMap::Draw(bool draw)
+void NodeMap::Draw()
 {
 	Color cellColour{ 255, 0, 0, 255 };
 	Color lineColour{ 127, 127, 127, 255 };
 
-	if (draw)
+	for (int y = 0; y < m_height; y++)
 	{
-		for (int y = 0; y < m_height; y++)
+		for (int x = 0; x < m_width; x++)
 		{
-			for (int x = 0; x < m_width; x++)
+			Node* node = GetNode(x, y);
+			if (node == nullptr)
 			{
-				Node* node = GetNode(x, y);
-				if (node == nullptr)
+				DrawRectangle(x * m_cellSize, y * m_cellSize, m_cellSize - 1, m_cellSize - 1, cellColour);
+			}
+			else
+			{
+				for (int i = 0; i < node->connections.size(); i++)
 				{
-					DrawRectangle(x * m_cellSize, y * m_cellSize, m_cellSize - 1, m_cellSize - 1, cellColour);
-				}
-				else
-				{
-					for (int i = 0; i < node->connections.size(); i++)
-					{
-						Node* other = node->connections[i].target;
-						DrawLine((x + 0.5f) * m_cellSize, (y + 0.5f) * m_cellSize, (int)other->position.x, (int)other->position.y, lineColour);
-					}
+					Node* other = node->connections[i].target;
+					DrawLine((x + 0.5f) * m_cellSize, (y + 0.5f) * m_cellSize, (int)other->position.x, (int)other->position.y, lineColour);
 				}
 			}
 		}

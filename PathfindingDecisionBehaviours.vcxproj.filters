@@ -25,6 +25,24 @@
     <Filter Include="Header Files\Condition">
       <UniqueIdentifier>{217ab6ab-eb31-4240-abfe-b28e65f26b93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Poly2Tri">
+      <UniqueIdentifier>{4862c178-3877-4811-9831-3022a8628977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Poly2Tri\Common">
+      <UniqueIdentifier>{b57126bd-e355-4b60-b4f2-94358799b42d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Poly2Tri\Sweep">
+      <UniqueIdentifier>{e70ff6ef-4aa1-4ced-aca8-9c62564733a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Poly2Tri">
+      <UniqueIdentifier>{e03cd10c-f341-493f-86df-acad2d7a92d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Poly2Tri\Sweep">
+      <UniqueIdentifier>{cdf6769f-277d-483d-8efd-d20c3e92d6fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Poly2Tri\Common">
+      <UniqueIdentifier>{62b39f8a-31ec-46be-b9c2-421623ef91d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,6 +82,24 @@
       <Filter>Source Files\Conditions</Filter>
     </ClCompile>
     <ClCompile Include="UtilityAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sweep\advancing_front.cc">
+      <Filter>Source Files\Poly2Tri\Sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="sweep\sweep.cc">
+      <Filter>Source Files\Poly2Tri\Sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="sweep\sweep_context.cc">
+      <Filter>Source Files\Poly2Tri\Sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="sweep\cdt.cc">
+      <Filter>Source Files\Poly2Tri\Sweep</Filter>
+    </ClCompile>
+    <ClCompile Include="common\shapes.cc">
+      <Filter>Source Files\Poly2Tri\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,6 +144,33 @@
       <Filter>Header Files\Behaviour</Filter>
     </ClInclude>
     <ClInclude Include="UtilityAI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sweep\sweep_context.h">
+      <Filter>Header Files\Poly2Tri\Sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="sweep\sweep.h">
+      <Filter>Header Files\Poly2Tri\Sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="sweep\cdt.h">
+      <Filter>Header Files\Poly2Tri\Sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="sweep\advancing_front.h">
+      <Filter>Header Files\Poly2Tri\Sweep</Filter>
+    </ClInclude>
+    <ClInclude Include="poly2tri.h">
+      <Filter>Header Files\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="common\shapes.h">
+      <Filter>Header Files\Poly2Tri\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\utils.h">
+      <Filter>Header Files\Poly2Tri\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="NavMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INavigatable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

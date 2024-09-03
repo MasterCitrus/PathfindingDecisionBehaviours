@@ -2,10 +2,11 @@
 
 #include "raylib.h"
 #include "Pathfinding.h"
+#include "INavigatable.h"
 #include "glm/vec2.hpp"
 #include <string>
 
-class NodeMap
+class NodeMap : public INavigatable
 {
 	int m_width, m_height;
 	float m_cellSize;
@@ -17,11 +18,13 @@ public:
 
 	//Node functions
 	Node* GetNode(int x, int y) { return m_nodes[x + m_width * y]; }
-	Node* GetClosestNode(glm::vec2 worldPos);
-	Node* GetRandomNode();
-	float GetCellSize();
+	virtual Node* GetClosestNode(glm::vec2 worldPos) override;
+	virtual Node* GetRandomNode() override;
+	virtual float GetCellSize() override;
 
-	void Draw(bool draw);
+	int SmoothPath(const std::vector<Node*>& path, std::vector<glm::vec2>& smoothPath) override { return smoothPath.size(); }
+
+	void Draw() override;
 
 	void DrawPath(std::vector<Node*> path, Color lineColour);
 

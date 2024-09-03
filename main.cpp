@@ -8,6 +8,7 @@
 #include "DistanceCondition.h"
 #include "FiniteStateMachine.h"
 #include "UtilityAI.h"
+#include "NavMesh.h"
 #include <string>
 #include <vector>
 
@@ -33,18 +34,24 @@ int main()
 	asciiMap.push_back("000000000000");
 	map.Intialise(asciiMap, 50);
 
-	//Start/End nodes
-	Node* start = map.GetNode(1, 1);
-	Node* end = map.GetNode(10, 2);
+	//Node* start = map.GetNode(1, 1);
+	//Node* end = map.GetNode(10, 2);
+
+	//NavMesh setup
+	NavMesh navigation(screenWidth, screenHeight);
+	srand(22);
+	navigation.AddObstacles(12, 60, 60);
+	navigation.Build();
+	Node* start = navigation.GetNodes()[0];
 
 	//Agent setup
-	Agent agent(&map, new GotoBehaviour());
+	Agent agent(&navigation, new GotoBehaviour());
 	agent.GetPathAgent().SetNode(start);
 	agent.GetPathAgent().SetSpeed(64);
 	agent.SetColour(Color{ 0,255,0,255 });
 
-	Agent agent2(&map, new WanderBehaviour());
-	agent2.GetPathAgent().SetNode(map.GetRandomNode());
+	Agent agent2(&navigation, new WanderBehaviour());
+	agent2.GetPathAgent().SetNode(navigation.GetRandomNode());
 	agent2.GetPathAgent().SetSpeed(64);
 
 	//Finite State Machine for Agent 3
@@ -65,8 +72,8 @@ int main()
 	utilityAI->AddBehaviour(new WanderBehaviour());
 	utilityAI->AddBehaviour(new FollowBehaviour());
 
-	Agent agent3(&map, utilityAI);
-	agent3.GetPathAgent().SetNode(map.GetRandomNode());
+	Agent agent3(&navigation, utilityAI);
+	agent3.GetPathAgent().SetNode(navigation.GetRandomNode());
 	agent3.SetTarget(&agent);
 	agent3.GetPathAgent().SetSpeed(32);
 
@@ -81,13 +88,15 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+
+		navigation.Draw();
 		
 		//Draw all connections
-		map.Draw(true);
-		//Draw selected path
+		//map.Draw(true);
+		////Draw selected path
 		map.DrawPath(agent.GetPathAgent().GetPath(), lineColour);
 
-		//Agent update/draw
+		////Agent update/draw
 		agent.Update(deltaTime);
 		agent.Draw();
 

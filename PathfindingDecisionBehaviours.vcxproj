@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -38,12 +39,14 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -51,6 +54,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -140,32 +144,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="common\shapes.cc" />
     <ClCompile Include="DistanceCondition.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="GotoBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NodeMap.cpp" />
     <ClCompile Include="PathAgent.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="SelectorBehaviour.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="sweep\advancing_front.cc" />
+    <ClCompile Include="sweep\cdt.cc" />
+    <ClCompile Include="sweep\sweep.cc" />
+    <ClCompile Include="sweep\sweep_context.cc" />
     <ClCompile Include="UtilityAI.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="common\shapes.h" />
+    <ClInclude Include="common\utils.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="DistanceCondition.h" />
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GotoBehaviour.h" />
+    <ClInclude Include="INavigatable.h" />
+    <ClInclude Include="NavMesh.h" />
     <ClInclude Include="NodeMap.h" />
     <ClInclude Include="PathAgent.h" />
     <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="poly2tri.h" />
     <ClInclude Include="SelectorBehaviour.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="sweep\advancing_front.h" />
+    <ClInclude Include="sweep\cdt.h" />
+    <ClInclude Include="sweep\sweep.h" />
+    <ClInclude Include="sweep\sweep_context.h" />
     <ClInclude Include="UtilityAI.h" />
     <ClInclude Include="WanderBehaviour.h" />
   </ItemGroup>

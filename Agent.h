@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include "NodeMap.h"
+#include "INavigatable.h"
 #include "PathAgent.h"
 #include "Behaviour.h"
 #include <vector>
@@ -9,7 +9,7 @@ class Agent
 {
 public:
 	Agent() {}
-	Agent(NodeMap* nodeMap, Behaviour* behaviour);
+	Agent(INavigatable* nodeMap, Behaviour* behaviour);
 	~Agent() { delete m_current; }
 
 	void Update(float deltaTime);
@@ -24,7 +24,7 @@ public:
 
 	Agent* GetTarget();
 	PathAgent& GetPathAgent();
-	NodeMap* GetNodeMap();
+	INavigatable* GetNodeMap();
 	glm::vec2 GetPosition();
 
 	bool PathComplete();
@@ -32,7 +32,7 @@ public:
 private:
 	PathAgent m_pathAgent;
 	Behaviour* m_current;
-	NodeMap* m_nodeMap;
+	INavigatable* m_nodeMap;
 	Color m_colour;
 	Agent* m_target;
 };

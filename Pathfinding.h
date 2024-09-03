@@ -16,6 +16,8 @@ struct Edge
 
 struct Node
 {
+	Node();
+
 	glm::vec2 position;
 	std::vector<Edge> connections;
 

@@ -1,6 +1,10 @@
 #include "Pathfinding.h"
 #include <string>
 
+Node::Node()
+{
+}
+
 Node::Node(float x, float y) : position{ x, y }, gScore{ 0 }, hScore{ 0 }, fScore{ 0 }, previous{ nullptr }
 {
 }
