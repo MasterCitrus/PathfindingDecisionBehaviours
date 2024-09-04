@@ -14,8 +14,8 @@
 
 int main()
 {
-	int screenWidth = 800;
-	int screenHeight = 450;
+	int screenWidth = 1280;
+	int screenHeight = 720;
 
 	InitWindow(screenWidth, screenHeight, "Pathfinding");
 
@@ -39,7 +39,7 @@ int main()
 
 	//NavMesh setup
 	NavMesh navigation(screenWidth, screenHeight);
-	srand(22);
+	srand(42);
 	navigation.AddObstacles(12, 60, 60);
 	navigation.Build();
 	Node* start = navigation.GetNodes()[0];
@@ -48,7 +48,6 @@ int main()
 	Agent agent(&navigation, new GotoBehaviour());
 	agent.GetPathAgent().SetNode(start);
 	agent.GetPathAgent().SetSpeed(64);
-	agent.SetColour(Color{ 0,255,0,255 });
 
 	Agent agent2(&navigation, new WanderBehaviour());
 	agent2.GetPathAgent().SetNode(navigation.GetRandomNode());
@@ -94,7 +93,8 @@ int main()
 		//Draw all connections
 		//map.Draw(true);
 		////Draw selected path
-		map.DrawPath(agent.GetPathAgent().GetPath(), lineColour);
+		map.DrawPath(agent3.GetPathAgent().GetPath(), lineColour);
+		navigation.DrawPath(agent3.GetPathAgent().GetSmoothPath(), Color{ 255, 255, 255, 255 });
 
 		////Agent update/draw
 		agent.Update(deltaTime);

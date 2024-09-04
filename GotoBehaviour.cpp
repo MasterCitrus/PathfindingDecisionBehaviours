@@ -11,3 +11,12 @@ void GotoBehaviour::Update(Agent* agent, float deltaTime)
 		agent->GoTo(glm::vec2(mousePos.x, mousePos.y));
 	}
 }
+
+void GotoBehaviour::Enter(Agent* agent)
+{
+	agent->Reset();
+}
+
+void GotoBehaviour::Exit(Agent* agent)
+{
+}

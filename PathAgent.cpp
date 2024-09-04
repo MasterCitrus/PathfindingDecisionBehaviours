@@ -1,5 +1,5 @@
 #include "PathAgent.h"
-#include "NodeMap.h"
+#include "NavMesh.h"
 
 
 void PathAgent::Update(float deltaTime)
@@ -20,6 +20,8 @@ void PathAgent::Update(float deltaTime)
 		{
 			m_position = m_currentNodePosition;
 			m_smoothPath.clear();
+			m_currentNode = m_path.back();
+			m_path.clear();
 		}
 		else
 		{
@@ -31,19 +33,25 @@ void PathAgent::Update(float deltaTime)
 
 void PathAgent::GoToNode(Node* node)
 {
-	m_path = NodeMap::AStarSearch(m_currentNode, node);
+	m_path = NavMesh::AStarSearch(m_currentNode, node);
 	m_currentIndex = 0;
 }
 
 void PathAgent::SetNode(Node* node)
 {
 	m_currentNode = node;
-	m_position = m_currentNode->position;
+	m_currentNodePosition = node->position;
+	m_position = node->position;
 }
 
 void PathAgent::SetSpeed(float speed)
 {
 	m_speed = speed;
+}
+
+void PathAgent::SetSmoothPath(std::vector<glm::vec2> smoothPath)
+{
+	m_smoothPath = smoothPath;
 }
 
 std::vector<Node*> PathAgent::GetPath()

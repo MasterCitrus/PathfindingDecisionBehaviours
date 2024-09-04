@@ -22,15 +22,13 @@ public:
 	virtual Node* GetRandomNode() override;
 	virtual float GetCellSize() override;
 
-	int SmoothPath(const std::vector<Node*>& path, std::vector<glm::vec2>& smoothPath) override { return smoothPath.size(); }
+	std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) override { return std::vector<glm::vec2>(); }
 
 	void Draw() override;
 
 	void DrawPath(std::vector<Node*> path, Color lineColour);
 
-	//Pathfinding functions
-	static std::vector<Node*> DijkstraSearch(Node* startNode, Node* endNode);
-	static std::vector<Node*> AStarSearch(Node* startNode, Node* endNode);
+	
 
 };
 

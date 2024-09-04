@@ -10,7 +10,9 @@ public:
 
 	void SetNode(Node* node);
 	void SetSpeed(float speed);
+	void SetSmoothPath(std::vector<glm::vec2> smoothPath);
 
+	Node* GetNode() { return m_currentNode; }
 	std::vector<Node*> GetPath();
 	std::vector<glm::vec2> GetSmoothPath();
 	glm::vec2 GetPosition() const;

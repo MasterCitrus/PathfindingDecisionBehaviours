@@ -149,6 +149,7 @@
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="GotoBehaviour.cpp" />
+    <ClCompile Include="INavigatable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NodeMap.cpp" />

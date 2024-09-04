@@ -66,16 +66,15 @@ bool NavMesh::AddObstacle(float x, float y, float width, float height, float pad
 	return true;
 }
 
-int NavMesh::SmoothPath(const std::vector<Node*>& path, std::vector<glm::vec2>& smoothPath)
+std::vector<glm::vec2> NavMesh::SmoothPath(const std::vector<Node*>& path)
 {
-	if(path.size() == 0) return 0;
+	if (path.size() == 0) return std::vector<glm::vec2>();
 	
-	smoothPath.clear();
-	glm::vec2* portals = new glm::vec2[(path.size() + 1) * 2];
-	int index = 0;
+	std::vector<glm::vec2> smoothPath;
+	std::vector<glm::vec2> portals;
 
-	portals[index++] = ((NavMesh::NavMeshNode*)path.front())->position;
-	portals[index++] = ((NavMesh::NavMeshNode*)path.front())->position;
+	portals.push_back(((NavMesh::NavMeshNode*)path.front())->position);
+	portals.push_back(((NavMesh::NavMeshNode*)path.front())->position);
 
 	NavMesh::NavMeshNode* prev = nullptr;
 	for (auto n : path)
@@ -83,56 +82,55 @@ int NavMesh::SmoothPath(const std::vector<Node*>& path, std::vector<glm::vec2>& 
 		NavMesh::NavMeshNode* node = (NavMesh::NavMeshNode*)n;
 		if (prev != nullptr)
 		{
-		glm::vec2 adj[2];
+			glm::vec2 adj[2];
 			prev->GetAdjacentVertices(node, adj);
 			glm::vec2 fromPrev = { node->position.x - prev->position.x, node->position.y - prev->position.y };
 			glm::vec2 toAdj0 = { adj[0].x - prev->position.x, adj[0].y - prev->position.y };
 
 			if ((fromPrev.x * toAdj0.y - toAdj0.x * fromPrev.y) > 0)
 			{
-				portals[index++] = adj[0];
-				portals[index++] = adj[1];
+				portals.push_back(adj[0]);
+				portals.push_back(adj[1]);
 			}
 			else
 			{
-				portals[index++] = adj[1];
-				portals[index++] = adj[0];
+				portals.push_back(adj[1]);
+				portals.push_back(adj[0]);
 			}
 		}
 		prev = node;
 	}
 
-	portals[index++] = ((NavMesh::NavMeshNode*)path.back())->position;
-	portals[index++] = ((NavMesh::NavMeshNode*)path.back())->position;
+	portals.push_back(((NavMesh::NavMeshNode*)path.back())->position);
+	portals.push_back(((NavMesh::NavMeshNode*)path.back())->position);
 
-	glm::vec2 out[100];
-	int count = StringPull(portals, index / 2, out, 100);
+	std::vector<glm::vec2> pts;
+	std::vector<glm::vec2> out = StringPull(portals, portals.size() / 2, pts, 100);
 
-	for (int i = 0; i < count; ++i)
+	for (int i = 0; i < out.size(); ++i)
 	{
 		smoothPath.push_back(out[i]);
 	}
 
-	delete[] portals;
-
-	return smoothPath.size();	
+	return smoothPath;	
 }
 
-int NavMesh::StringPull(const glm::vec2* portals, const int numPortals, glm::vec2* pts, const int maxPts)
+std::vector<glm::vec2> NavMesh::StringPull(const std::vector<glm::vec2> portals, int numPortals, std::vector<glm::vec2> pts, const int maxPts)
 {
 	int npts = 0;
 
-	glm::vec2 portalApex = portals[0];
-	glm::vec2 portalLeft = portals[0];
-	glm::vec2 portalRight = portals[1];
+	glm::vec2 portalApex = portals.front();
+	glm::vec2 portalLeft = portals.front();
+	glm::vec2 portalRight = *(portals.begin() + 1);
 	int apexIndex = 0, leftIndex = 0, rightIndex = 0;
 	
 	pts[npts++] = portalApex;
+	
 
 	for (int i = 1; i < numPortals && npts < maxPts; ++i)
 	{
-		const glm::vec2& left = portals[i * 2];
-		const glm::vec2& right = portals[i * 2 + 1];
+		const glm::vec2& left = *(portals.begin() + (i * 2));
+		const glm::vec2& right = *(portals.begin() + (i * 2 + 1));
 
 		if (TriArea2(portalApex, portalRight, right) <= 0.0f)
 		{
@@ -155,9 +153,9 @@ int NavMesh::StringPull(const glm::vec2* portals, const int numPortals, glm::vec
 			}
 		}
 
-		if (TriArea2(portalApex, portalLeft, left))
+		if (TriArea2(portalApex, portalLeft, left) >= 0.0f)
 		{
-			if (VEqual(portalApex, portalLeft) || TriArea2(portalApex, portalLeft, left) < 0.0f)
+			if (VEqual(portalApex, portalLeft) || TriArea2(portalApex, portalRight, left) < 0.0f)
 			{
 				portalLeft = left;
 				leftIndex = i;
@@ -181,7 +179,7 @@ int NavMesh::StringPull(const glm::vec2* portals, const int numPortals, glm::vec
 			pts[npts++] = portals[(numPortals - 1) * 2];
 		}
 
-		return npts;
+		return pts;
 	}
 }
 
@@ -189,13 +187,13 @@ float NavMesh::TriArea2(const glm::vec2 a, const glm::vec2 b, const glm::vec2 c)
 {
 	glm::vec2 ab = b - a;
 	glm::vec2 ac = c - a;
-	return ac.x * ab.y - ab.x - ac.y;
+	return ac.x * ab.y - ab.x * ac.y;
 }
 
 bool NavMesh::VEqual(const glm::vec2 a, const glm::vec2 b)
 {
-	static const float epsilon = 0.001f * 0.001f;
-	return glm::distance(a, b) < epsilon;
+	static const float eq = 0.001f * 0.001f;
+	return glm::distance(a, b) < eq;
 }
 
 void NavMesh::AddObstacles(int num, int width, int height)
@@ -241,7 +239,7 @@ void NavMesh::Build()
 			if (n->GetAdjacentVertices(n2, v) == 2)
 			{
 				float mag = (n->position.x - n2->position.x) *
-					(n->position.x - n2->position.x) *
+					(n->position.x - n2->position.x) +
 					(n->position.y - n2->position.y) *
 					(n->position.y - n2->position.y);
 
@@ -285,7 +283,12 @@ void NavMesh::Draw()
 
 void NavMesh::DrawPath(std::vector<glm::vec2> path, Color lineColour)
 {
-
+	for (int i = 1; i < path.size(); i++)
+	{
+		glm::vec2 node = *(path.begin() + i);
+		glm::vec2 prevNode = *(path.begin() + (i - 1));
+		DrawLine(prevNode.x, prevNode.y, node.x, node.y, lineColour);
+	}
 }
 
 int NavMesh::NavMeshNode::GetAdjacentVertices(NavMesh::NavMeshNode* other, glm::vec2* adjacent)

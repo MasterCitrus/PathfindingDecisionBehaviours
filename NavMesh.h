@@ -30,7 +30,7 @@ public:
 	};
 
 	NavMeshNode* GetRandomNavMeshNode() const;
-	Node* GetRandomNode() override { return GetRandomNavMeshNode(); }
+	virtual Node* GetRandomNode() override { return GetRandomNavMeshNode(); }
 	NavMeshNode* FindClosest(float x, float y) const;
 	virtual Node* GetClosestNode(glm::vec2 worldPos) { return FindClosest(worldPos.x, worldPos.y); }
 
@@ -38,9 +38,9 @@ public:
 
 	bool AddObstacle(float x, float y, float width, float height, float padding);
 
-	virtual int SmoothPath(const std::vector<Node*>& path, std::vector<glm::vec2>& smoothPath) override;
+	virtual std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) override;
 
-	int StringPull(const glm::vec2* portals, const int numPortals, glm::vec2* pts, const int maxPts);
+	std::vector<glm::vec2> StringPull(const std::vector<glm::vec2> portals, const int numPortals, std::vector<glm::vec2> pts, const int maxPts);
 	float TriArea2(const glm::vec2 a, const glm::vec2 b, const glm::vec2 c);
 	bool VEqual(const glm::vec2 a, const glm::vec2 b);
 

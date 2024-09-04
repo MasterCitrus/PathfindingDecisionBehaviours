@@ -21,13 +21,14 @@ void Agent::Draw()
 void Agent::Reset()
 {
 	m_pathAgent.GetPath().clear();
+	m_pathAgent.GetSmoothPath().clear();
 }
 
 void Agent::GoTo(glm::vec2 point)
 {
 	Node* end = m_nodeMap->GetClosestNode(point);
 	m_pathAgent.GoToNode(end);
-	m_nodeMap->SmoothPath(m_pathAgent.GetPath(), (std::vector<glm::vec2>&)m_pathAgent.GetSmoothPath());
+	m_pathAgent.SetSmoothPath(m_nodeMap->SmoothPath(m_pathAgent.GetPath()));
 }
 
 void Agent::SetTarget(Agent* agent)
@@ -62,5 +63,5 @@ glm::vec2 Agent::GetPosition()
 
 bool Agent::PathComplete()
 {
-	return m_pathAgent.GetPath().empty();
+	return m_pathAgent.GetSmoothPath().empty();
 }
