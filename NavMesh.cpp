@@ -107,9 +107,9 @@ std::vector<glm::vec2> NavMesh::SmoothPath(const std::vector<Node*>& path)
 	std::vector<glm::vec2> pts;
 	std::vector<glm::vec2> out = StringPull(portals, portals.size() / 2, pts, 100);
 
-	for (int i = 0; i < out.size(); ++i)
+	for (auto vec : out)
 	{
-		smoothPath.push_back(out[i]);
+		smoothPath.push_back(vec);
 	}
 
 	return smoothPath;	
@@ -124,7 +124,8 @@ std::vector<glm::vec2> NavMesh::StringPull(const std::vector<glm::vec2> portals,
 	glm::vec2 portalRight = *(portals.begin() + 1);
 	int apexIndex = 0, leftIndex = 0, rightIndex = 0;
 	
-	pts[npts++] = portalApex;
+	pts.push_back(portalApex);
+	npts++;
 	
 
 	for (int i = 1; i < numPortals && npts < maxPts; ++i)
@@ -141,7 +142,8 @@ std::vector<glm::vec2> NavMesh::StringPull(const std::vector<glm::vec2> portals,
 			}
 			else
 			{
-				pts[npts++] = portalLeft;
+				pts.push_back(portalLeft);
+				npts++;
 				portalApex = portalLeft;
 				apexIndex = leftIndex;
 				portalLeft = portalApex;
@@ -162,7 +164,8 @@ std::vector<glm::vec2> NavMesh::StringPull(const std::vector<glm::vec2> portals,
 			}
 			else
 			{
-				pts[npts++] = portalRight;
+				pts.push_back(portalRight);
+				npts++;
 				portalApex = portalRight;
 				apexIndex = rightIndex;
 				portalLeft = portalApex;
@@ -176,7 +179,8 @@ std::vector<glm::vec2> NavMesh::StringPull(const std::vector<glm::vec2> portals,
 
 		if (npts < maxPts)
 		{
-			pts[npts++] = portals[(numPortals - 1) * 2];
+			pts.push_back(portals[(numPortals - 1) * 2]);
+			npts++;
 		}
 
 		return pts;
