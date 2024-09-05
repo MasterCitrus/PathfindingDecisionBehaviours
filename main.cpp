@@ -11,11 +11,16 @@
 #include "NavMesh.h"
 #include <string>
 #include <vector>
+#include <time.h>
 
 int main()
 {
 	int screenWidth = 1280;
 	int screenHeight = 720;
+
+	bool drawPaths = false;
+
+	std::vector<Agent> agents;
 
 	InitWindow(screenWidth, screenHeight, "Pathfinding");
 
@@ -39,8 +44,8 @@ int main()
 
 	//NavMesh setup
 	NavMesh navigation(screenWidth, screenHeight);
-	srand(42);
-	navigation.AddObstacles(12, 60, 60);
+	srand(time(nullptr));
+	navigation.AddObstacles(250, 10, 10);
 	navigation.Build();
 	Node* start = navigation.GetNodes()[0];
 
@@ -76,9 +81,18 @@ int main()
 	agent3.SetTarget(&agent);
 	agent3.GetPathAgent().SetSpeed(32);
 
+	for (int i = 0; i < 100; i++)
+	{
+		Agent newAgent(&navigation, new WanderBehaviour());
+		newAgent.GetPathAgent().SetNode(navigation.GetRandomNode());
+		newAgent.GetPathAgent().SetSpeed(64);
+
+		agents.push_back(newAgent);
+	}
+
 	//Get path
 	//std::vector<Node*> nodeMapPath = NodeMap::DijkstraSearch(start, end);
-	Color lineColour = { 255, 255, 0, 255 };
+	Color lineColour = { 255, 255, 255, 255 };
 
 	while (!WindowShouldClose())
 	{
@@ -90,12 +104,21 @@ int main()
 
 		navigation.Draw();
 		
+
+		if (IsKeyPressed(KEY_SPACE)) drawPaths = !drawPaths;
 		//Draw all connections
 		//map.Draw(true);
 		////Draw selected path
-		map.DrawPath(agent3.GetPathAgent().GetPath(), lineColour);
-		navigation.DrawPath(agent3.GetPathAgent().GetSmoothPath(), Color{ 255, 255, 255, 255 });
-
+		if (drawPaths)
+		{
+			//map.DrawPath(agent.GetPathAgent().GetPath(), agent.GetColor());
+			//map.DrawPath(agent2.GetPathAgent().GetPath(), agent.GetColor());
+			//map.DrawPath(agent3.GetPathAgent().GetPath(), agent.GetColor());
+			navigation.DrawPath(agent.GetPathAgent().GetSmoothPath(), agent.GetColor());
+			//navigation.DrawPath(agent2.GetPathAgent().GetSmoothPath(), lineColour);
+			navigation.DrawPath(agent3.GetPathAgent().GetSmoothPath(), agent.GetColor());
+		}
+		
 		////Agent update/draw
 		agent.Update(deltaTime);
 		agent.Draw();
@@ -105,6 +128,12 @@ int main()
 
 		agent3.Update(deltaTime);
 		agent3.Draw();
+
+		for (auto& a : agents)
+		{
+			a.Update(deltaTime);
+			a.Draw();
+		}
 
 		EndDrawing();
 	}

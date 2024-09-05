@@ -19,4 +19,5 @@ void GotoBehaviour::Enter(Agent* agent)
 
 void GotoBehaviour::Exit(Agent* agent)
 {
+	agent->Reset();
 }

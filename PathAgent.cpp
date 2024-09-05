@@ -15,18 +15,18 @@ void PathAgent::Update(float deltaTime)
 	}
 	else
 	{
+		//m_currentNode = *(m_path.begin() + m_currentIndex);
 		m_currentIndex++;
 		if (m_currentIndex >= m_smoothPath.size())
 		{
 			m_position = m_currentNodePosition;
 			m_smoothPath.clear();
 			m_currentNode = m_path.back();
-			m_path.clear();
 		}
 		else
 		{
-			glm::vec2 oldNode = m_currentNodePosition;
 			m_currentNodePosition = m_smoothPath[m_currentIndex];
+			//m_currentNode = *(m_path.begin() + m_currentIndex);
 		}
 	}
 }

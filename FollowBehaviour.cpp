@@ -20,6 +20,11 @@ void FollowBehaviour::Enter(Agent* agent)
 	agent->Reset();
 }
 
+void FollowBehaviour::Exit(Agent* agent)
+{
+	agent->Reset();
+}
+
 float FollowBehaviour::Evaluate(Agent* agent)
 {
 	Agent* target = agent->GetTarget();

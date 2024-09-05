@@ -40,7 +40,7 @@ public:
 
 	virtual std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) override;
 
-	std::vector<glm::vec2> StringPull(const std::vector<glm::vec2> portals, const int numPortals, std::vector<glm::vec2> pts, const int maxPts);
+	std::vector<glm::vec2> StringPull(const std::vector<glm::vec2> portals, const int numPortals, const int maxPts);
 	float TriArea2(const glm::vec2 a, const glm::vec2 b, const glm::vec2 c);
 	bool VEqual(const glm::vec2 a, const glm::vec2 b);
 

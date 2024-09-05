@@ -10,7 +10,7 @@ class Agent
 public:
 	Agent() {}
 	Agent(INavigatable* nodeMap, Behaviour* behaviour);
-	~Agent() { delete m_current; }
+	~Agent() {}//delete m_current; }
 
 	void Update(float deltaTime);
 	void Draw();
@@ -26,6 +26,7 @@ public:
 	PathAgent& GetPathAgent();
 	INavigatable* GetNodeMap();
 	glm::vec2 GetPosition();
+	Color GetColor() const { return m_colour; }
 
 	bool PathComplete();
 

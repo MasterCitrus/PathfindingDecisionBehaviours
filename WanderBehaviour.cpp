@@ -15,6 +15,11 @@ void WanderBehaviour::Enter(Agent* agent)
 	agent->Reset();
 }
 
+void WanderBehaviour::Exit(Agent* agent)
+{
+	agent->Reset();
+}
+
 float WanderBehaviour::Evaluate(Agent* agent)
 {
 	Agent* target = agent->GetTarget();
