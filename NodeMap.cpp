@@ -1,4 +1,5 @@
 #include "NodeMap.h"
+#include "Agent.h"
 #include <iostream>
 #include <algorithm>
 
@@ -9,6 +10,9 @@ void NodeMap::Intialise(std::vector<std::string> asciiMap, int cellSize)
 
 	m_height = asciiMap.size();
 	m_width = asciiMap[0].size();
+
+	std::cout << "Height: " << m_height << '\n';
+	std::cout << "Width: " << m_width << '\n';
 
 	m_nodes = new Node * [m_width * m_height];
 
@@ -80,8 +84,10 @@ void NodeMap::Draw()
 	}
 }
 
-void NodeMap::DrawPath(std::vector<Node*> path, Color lineColour)
+void NodeMap::DrawPath(Agent* agent, Color lineColour)
 {
+	std::vector<Node*> path = agent->GetPathAgent().GetPath();
+	if (path.empty()) return;
 	for (int i = 1; i < path.size(); i++)
 	{
 		Node* node = *(path.begin() + i);

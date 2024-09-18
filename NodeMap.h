@@ -6,9 +6,12 @@
 #include "glm/vec2.hpp"
 #include <string>
 
+class Agent;
+
 class NodeMap : public INavigatable
 {
 	int m_width, m_height;
+	int currentIndex = 0;
 	float m_cellSize;
 
 	Node** m_nodes;
@@ -26,7 +29,7 @@ public:
 
 	void Draw() override;
 
-	void DrawPath(std::vector<Node*> path, Color lineColour);
+	void DrawPath(Agent* agent, Color lineColour);
 
 	
 

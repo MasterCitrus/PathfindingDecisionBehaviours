@@ -63,5 +63,5 @@ glm::vec2 Agent::GetPosition()
 
 bool Agent::PathComplete()
 {
-	return m_pathAgent.GetSmoothPath().empty();
+	return m_pathAgent.GetPath().empty();
 }

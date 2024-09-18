@@ -27,5 +27,6 @@ private:
 	glm::vec2 m_currentNodePosition;
 
 	float m_speed;
+	bool usingNavMesh = false;
 };
 
