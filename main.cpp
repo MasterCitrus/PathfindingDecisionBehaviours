@@ -78,6 +78,8 @@ int main()
 	//asciiMap.push_back("000000000000");
 	map.Intialise(asciiMap, 50);
 
+	std::cout << "\nPress 'Space' to show path lines.\n";
+
 	Node* start = map.GetNode(1, 1);
 	//Node* end = map.GetNode(10, 2);
 
@@ -164,7 +166,7 @@ int main()
 
 		BeginDrawing();
 
-		ClearBackground(BLACK);
+		ClearBackground(GRAY);
 
 		map.Draw();
 		
@@ -179,8 +181,10 @@ int main()
 			//map.DrawPath(agent2.GetPathAgent().GetPath(), agent.GetColor());
 			//map.DrawPath(agent3.GetPathAgent().GetPath(), agent.GetColor());
 			map.DrawPath(&agent, agent.GetColor());
-			//navigation.DrawPath(agent2.GetPathAgent().GetSmoothPath(), lineColour);
+			map.DrawPath(&agent2, agent2.GetColor());
 			map.DrawPath(&agent3, agent3.GetColor());
+			map.DrawPath(&agent4, agent4.GetColor());
+			map.DrawPath(&agent5, agent5.GetColor());
 		}
 		
 		////Agent update/draw

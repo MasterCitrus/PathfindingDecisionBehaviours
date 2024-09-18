@@ -25,7 +25,11 @@ public:
 	virtual Node* GetRandomNode() override;
 	virtual float GetCellSize() override;
 
-	std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) override { return std::vector<glm::vec2>(); }
+	bool IsVisibleFrom(Node* start, Node* end);
+
+	std::vector<Node*> SmoothPath(std::vector<Node*> path);
+
+	//std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) override { return std::vector<glm::vec2>(); }
 
 	void Draw() override;
 

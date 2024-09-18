@@ -11,6 +11,7 @@ void NodeMap::Intialise(std::vector<std::string> asciiMap, int cellSize)
 	m_height = asciiMap.size();
 	m_width = asciiMap[0].size();
 
+	std::cout << "\n[[MAP STATS]]\n";
 	std::cout << "Height: " << m_height << '\n';
 	std::cout << "Width: " << m_width << '\n';
 
@@ -53,6 +54,20 @@ void NodeMap::Intialise(std::vector<std::string> asciiMap, int cellSize)
 					node->ConnectTo(nodeSouth, 1);
 					nodeSouth->ConnectTo(node, 1);
 				}
+
+				Node* nodeSouthWest = (x == 0 || y == 0) ? nullptr : GetNode(x - 1, y - 1);
+				if (nodeSouthWest)
+				{
+					node->ConnectTo(nodeSouthWest, 1.414f);
+					nodeSouthWest->ConnectTo(node, 1.414f);
+				}
+
+				Node* nodeSouthEast = (x == m_width - 1 || y == 0) ? nullptr : GetNode(x + 1, y - 1);
+				if (nodeSouthEast)
+				{
+					node->ConnectTo(nodeSouthEast, 1.414f);
+					nodeSouthEast->ConnectTo(node, 1.414f);
+				}
 			}
 		}
 	}
@@ -60,26 +75,31 @@ void NodeMap::Intialise(std::vector<std::string> asciiMap, int cellSize)
 
 void NodeMap::Draw()
 {
-	Color cellColour{ 255, 0, 0, 255 };
-	Color lineColour{ 127, 127, 127, 255 };
+	Color borderColour{ 60, 0, 255, 255 };
+	Color cellColour{ 127, 200, 60, 255 };
+	Color lineColour{ 0, 0, 0, 255 };
 
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)
 		{
+			std::string coords = std::to_string(x).c_str() + std::string(",") + std::to_string(y).c_str();
 			Node* node = GetNode(x, y);
 			if (node == nullptr)
 			{
-				DrawRectangle(x * m_cellSize, y * m_cellSize, m_cellSize - 1, m_cellSize - 1, cellColour);
+				DrawRectangle(x * m_cellSize, y * m_cellSize, m_cellSize - 1, m_cellSize - 1, borderColour);
 			}
 			else
 			{
+				DrawRectangle(x * m_cellSize, y * m_cellSize, m_cellSize - 1, m_cellSize - 1, cellColour);
+				//DrawCircle((x * m_cellSize) + m_cellSize / 2, (y * m_cellSize) + m_cellSize / 2, m_cellSize / 8, lineColour);
 				for (int i = 0; i < node->connections.size(); i++)
 				{
 					Node* other = node->connections[i].target;
-					DrawLine((x + 0.5f) * m_cellSize, (y + 0.5f) * m_cellSize, (int)other->position.x, (int)other->position.y, lineColour);
+					//DrawLine((x + 0.5f) * m_cellSize, (y + 0.5f) * m_cellSize, (int)other->position.x, (int)other->position.y, lineColour);
 				}
 			}
+			DrawText(coords.c_str(), x * m_cellSize, y * m_cellSize, 5, BLACK);
 		}
 	}
 }
@@ -121,4 +141,48 @@ Node* NodeMap::GetRandomNode()
 float NodeMap::GetCellSize()
 {
 	return m_cellSize;
+}
+
+bool NodeMap::IsVisibleFrom(Node* start, Node* end)
+{
+	glm::vec2 delta = end->position - start->position;
+	float distance = glm::distance(end->position, start->position);
+	delta = delta * (m_cellSize / distance);
+
+	for (float cells = 1.0f; cells < distance / m_cellSize; cells += 1.0f)
+	{
+		glm::vec2 testPosition = start->position + (delta * cells);
+
+		if (GetClosestNode(testPosition) == nullptr) return false;
+	}
+
+	return true;
+}
+
+std::vector<Node*> NodeMap::SmoothPath(std::vector<Node*> path)
+{
+	if(path.empty()) return std::vector<Node*>();
+
+	std::vector<Node*> newPath;
+	
+	Node* start = *path.begin();
+	Node* current;
+	int index = 1;
+	bool visible = false;
+	//newPath.push_back(start);
+	while (index < path.size())
+	{
+		current = *(path.begin() + index);
+		visible = IsVisibleFrom(start, current);
+
+		if (!visible)
+		{
+			start = *(path.begin() + index - 1);
+			newPath.push_back(start);
+		}
+
+		index++;
+	}
+	newPath.push_back(path.back());
+	return newPath;
 }

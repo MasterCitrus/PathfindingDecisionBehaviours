@@ -2,11 +2,13 @@
 
 #include "Pathfinding.h"
 
+class NodeMap;
+
 class PathAgent
 {
 public:
 	void Update(float deltaTime);
-	void GoToNode(Node* node);
+	void GoToNode(Node* node, NodeMap* map);
 
 	void SetNode(Node* node);
 	void SetSpeed(float speed);
@@ -18,13 +20,13 @@ public:
 	glm::vec2 GetPosition() const;
 
 private:
-	glm::vec2 m_position;
 
 	std::vector<Node*> m_path;
 	std::vector<glm::vec2> m_smoothPath;
+	glm::vec2 m_position;
+	glm::vec2 m_currentNodePosition;
 	int m_currentIndex;
 	Node* m_currentNode;
-	glm::vec2 m_currentNodePosition;
 
 	float m_speed;
 	bool usingNavMesh = false;

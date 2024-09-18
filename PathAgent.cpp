@@ -1,5 +1,6 @@
 #include "PathAgent.h"
 #include "NavMesh.h"
+#include "NodeMap.h"
 
 
 void PathAgent::Update(float deltaTime)
@@ -36,7 +37,7 @@ void PathAgent::Update(float deltaTime)
 	{
 		if (m_path.empty()) return;
 
-		Node* nextNode = m_path[m_currentIndex + 1];
+		Node* nextNode = m_path.begin() + m_currentIndex == m_path.end() ? m_path.back() : *(m_path.begin() + m_currentIndex);
 		float distance = glm::distance(m_position, nextNode->position);
 		glm::vec2 normal = glm::normalize(nextNode->position - m_position);
 		distance -= m_speed * deltaTime;
@@ -46,24 +47,25 @@ void PathAgent::Update(float deltaTime)
 		}
 		else
 		{
-			if (m_currentIndex < m_path.size() - 2)
+			m_currentNode = nextNode;
+			if (m_currentIndex >= m_path.size())
 			{
-				m_currentIndex++;
-				m_currentNode = nextNode;
+				m_path.clear();
+				m_position = m_currentNode->position;
 			}
 			else
 			{
-				m_path.clear();
-				m_currentNode = nextNode;
-				m_position = m_currentNode->position;
+				m_currentIndex++;
+				
 			}
 		}
 	}
 }
 
-void PathAgent::GoToNode(Node* node)
+void PathAgent::GoToNode(Node* node, NodeMap* map)
 {
 	m_path = NavMesh::AStarSearch(m_currentNode, node);
+	m_path = map->SmoothPath(m_path);
 	m_currentIndex = 0;
 }
 

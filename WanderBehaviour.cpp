@@ -11,8 +11,8 @@ void WanderBehaviour::Update(Agent* agent, float deltaTime)
 
 void WanderBehaviour::Enter(Agent* agent)
 {
-	agent->SetColour({ 0, 255, 255, 255 });
 	agent->Reset();
+	agent->SetColour({ 0, 255, 255, 255 });
 }
 
 void WanderBehaviour::Exit(Agent* agent)
