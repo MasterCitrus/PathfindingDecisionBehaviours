@@ -2,8 +2,9 @@
 #include "Behaviour.h"
 #include "NodeMap.h"
 
-Agent::Agent(INavigatable* nodeMap, Behaviour* behaviour) : m_current{ behaviour }, m_nodeMap{ nodeMap }, m_colour{ 255, 255, 0, 255 }, m_target{ nullptr }
+Agent::Agent(INavigatable* nodeMap, Behaviour* behaviour) : m_current{ behaviour }, m_nodeMap{ nodeMap }, m_colour{ 255, 255, 0, 255 }, m_target{ nullptr }, m_hp{ 100 }
 {
+	m_pathAgent.SetNodeMap((NodeMap*)m_nodeMap);
 	m_current->Enter(this);
 }
 
@@ -29,7 +30,7 @@ void Agent::GoTo(glm::vec2 point)
 {
 	Node* end = m_nodeMap->GetClosestNode(point);
 	m_pathAgent.GoToNode(end, (NodeMap*)m_nodeMap);
-	m_pathAgent.SetSmoothPath(m_nodeMap->SmoothPath(m_pathAgent.GetPath()));
+	//m_pathAgent.SetSmoothPath(m_nodeMap->SmoothPath(m_pathAgent.GetPath()));
 }
 
 void Agent::SetTarget(Agent* agent)

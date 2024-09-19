@@ -16,7 +16,5 @@ public:
 	//virtual std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) = 0;
 	virtual std::vector<glm::vec2> SmoothPath(const std::vector<Node*>& path) { return std::vector<glm::vec2>(); }
 
-	//Pathfinding functions
-	static std::vector<Node*> DijkstraSearch(Node* startNode, Node* endNode);
-	static std::vector<Node*> AStarSearch(Node* startNode, Node* endNode);
+	
 };

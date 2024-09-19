@@ -24,8 +24,14 @@ float WanderBehaviour::Evaluate(Agent* agent)
 {
 	Agent* target = agent->GetTarget();
 	float distance = glm::distance(target->GetPosition(), agent->GetPosition());
+	float eval = 0;
 
-	float eval = distance;
+	if (target->GetHP() > 0)
+	{
+		eval = distance;
+	}
+	else eval = 1000;
+
 	if (eval < 0) eval = 0;
 	return eval;
 }

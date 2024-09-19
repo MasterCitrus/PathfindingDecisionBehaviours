@@ -112,7 +112,7 @@ void NodeMap::DrawPath(Agent* agent, Color lineColour)
 	{
 		Node* node = *(path.begin() + i);
 		Node* prevNode = *(path.begin() + (i - 1));
-		DrawLine(prevNode->position.x, prevNode->position.y, (int)node->position.x, (int)node->position.y, lineColour);
+		DrawLine(prevNode->position.x, prevNode->position.y, node->position.x, node->position.y, lineColour);
 	}
 }
 
@@ -166,23 +166,15 @@ std::vector<Node*> NodeMap::SmoothPath(std::vector<Node*> path)
 	std::vector<Node*> newPath;
 	
 	Node* start = *path.begin();
-	Node* current;
-	int index = 1;
-	bool visible = false;
-	//newPath.push_back(start);
-	while (index < path.size())
+	newPath.push_back(start);
+
+	for (int i = 0; i < path.size(); i++)
 	{
-		current = *(path.begin() + index);
-		visible = IsVisibleFrom(start, current);
+		while (i < path.size() - 1 && IsVisibleFrom(start, path[i + 1])) i++;
 
-		if (!visible)
-		{
-			start = *(path.begin() + index - 1);
-			newPath.push_back(start);
-		}
-
-		index++;
+		start = path[i];
+		newPath.push_back(start);
 	}
-	newPath.push_back(path.back());
+
 	return newPath;
 }

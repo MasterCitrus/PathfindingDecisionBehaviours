@@ -22,11 +22,16 @@ public:
 	void SetTarget(Agent* agent);
 	void SetColour(Color colour);
 
+	void TakeDamage(float damage) { m_hp -= damage; };
+	void SetDamage(float damage) { m_damage = damage; }
+
 	Agent* GetTarget();
 	PathAgent& GetPathAgent();
 	INavigatable* GetNodeMap();
 	glm::vec2 GetPosition();
 	Color GetColor() const { return m_colour; }
+	float GetHP() { return m_hp; }
+	float GetDamage() { return m_damage; }
 
 	bool PathComplete();
 
@@ -36,5 +41,7 @@ private:
 	INavigatable* m_nodeMap;
 	Color m_colour;
 	Agent* m_target;
+	int m_hp;
+	int m_damage;
 };
 

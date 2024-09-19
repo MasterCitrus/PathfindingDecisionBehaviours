@@ -13,6 +13,7 @@ public:
 	void SetNode(Node* node);
 	void SetSpeed(float speed);
 	void SetSmoothPath(std::vector<glm::vec2> smoothPath);
+	void SetNodeMap(NodeMap* nodeMap) { m_nodeMap = nodeMap; }
 
 	Node* GetNode() { return m_currentNode; }
 	std::vector<Node*> GetPath();
@@ -23,6 +24,7 @@ private:
 
 	std::vector<Node*> m_path;
 	std::vector<glm::vec2> m_smoothPath;
+	NodeMap* m_nodeMap;
 	glm::vec2 m_position;
 	glm::vec2 m_currentNodePosition;
 	int m_currentIndex;

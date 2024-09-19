@@ -35,3 +35,6 @@ struct Node
 	static bool CompareF(Node* a, Node* b);
 };
 
+//Pathfinding functions
+std::vector<Node*> DijkstraSearch(Node* startNode, Node* endNode);
+std::vector<Node*> AStarSearch(Node* startNode, Node* endNode);

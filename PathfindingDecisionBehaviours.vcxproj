@@ -148,13 +148,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="AttackBehaviour.cpp" />
     <ClCompile Include="common\shapes.cc" />
+    <ClCompile Include="DeadBehaviour.cpp" />
     <ClCompile Include="DistanceCondition.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="GotoBehaviour.cpp" />
+    <ClCompile Include="HealthCondition.cpp" />
     <ClCompile Include="INavigatable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MultiCondition.cpp" />
     <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NodeMap.cpp" />
     <ClCompile Include="PathAgent.cpp" />
@@ -170,15 +174,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="AttackBehaviour.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="common\shapes.h" />
     <ClInclude Include="common\utils.h" />
     <ClInclude Include="Condition.h" />
+    <ClInclude Include="DeadBehaviour.h" />
     <ClInclude Include="DistanceCondition.h" />
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GotoBehaviour.h" />
+    <ClInclude Include="HealthCondition.h" />
     <ClInclude Include="INavigatable.h" />
+    <ClInclude Include="MultiCondition.h" />
     <ClInclude Include="NavMesh.h" />
     <ClInclude Include="NodeMap.h" />
     <ClInclude Include="PathAgent.h" />

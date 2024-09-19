@@ -16,7 +16,7 @@ void FollowBehaviour::Update(Agent* agent, float deltaTime)
 
 void FollowBehaviour::Enter(Agent* agent)
 {
-	agent->SetColour({ 255, 0, 0, 255 });
+	agent->SetColour({ 255, 127, 0, 255 });
 	agent->Reset();
 }
 
@@ -30,7 +30,8 @@ float FollowBehaviour::Evaluate(Agent* agent)
 	Agent* target = agent->GetTarget();
 	float distance = glm::distance(target->GetPosition(), agent->GetPosition());
 
-	float eval = 10 * agent->GetNodeMap()->GetCellSize() - distance;
+	float eval = 5 * agent->GetNodeMap()->GetCellSize() - distance;
+	if (target->GetHP() <= 0) eval = 0;
 	if (eval < 0) eval = 0;
 	return eval;
 }

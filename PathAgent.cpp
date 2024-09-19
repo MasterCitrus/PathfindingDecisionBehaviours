@@ -1,6 +1,6 @@
 #include "PathAgent.h"
-#include "NavMesh.h"
 #include "NodeMap.h"
+#include "Pathfinding.h"
 
 
 void PathAgent::Update(float deltaTime)
@@ -37,6 +37,9 @@ void PathAgent::Update(float deltaTime)
 	{
 		if (m_path.empty()) return;
 
+		Node* node = m_nodeMap->GetClosestNode(GetPosition());
+		if (node) m_currentNode = node;
+
 		Node* nextNode = m_path.begin() + m_currentIndex == m_path.end() ? m_path.back() : *(m_path.begin() + m_currentIndex);
 		float distance = glm::distance(m_position, nextNode->position);
 		glm::vec2 normal = glm::normalize(nextNode->position - m_position);
@@ -64,7 +67,7 @@ void PathAgent::Update(float deltaTime)
 
 void PathAgent::GoToNode(Node* node, NodeMap* map)
 {
-	m_path = NavMesh::AStarSearch(m_currentNode, node);
+	m_path = AStarSearch(m_currentNode, node);
 	m_path = map->SmoothPath(m_path);
 	m_currentIndex = 0;
 }
