@@ -5,12 +5,17 @@
 #include "WanderBehaviour.h"
 #include "FollowBehaviour.h"
 #include "AttackBehaviour.h"
+#include "IdleBehaviour.h"
 #include "DeadBehaviour.h"
 #include "DistanceCondition.h"
 #include "HealthCondition.h"
+#include "TimerCondition.h"
+#include "RandomCondition.h"
+#include "ANDMultiCondition.h"
+#include "ORMultiCondition.h"
+#include "XORMultiCondition.h"
 #include "FiniteStateMachine.h"
 #include "UtilityAI.h"
-#include "NavMesh.h"
 #include <string>
 #include <vector>
 #include <time.h>
@@ -78,28 +83,41 @@ int main()
 	Node* start = map.GetNode(1, 1);
 
 	//Conditions
-	DistanceCondition* closerThan2half = new DistanceCondition(2.5f * map.GetCellSize(), true);
+	DistanceCondition* closerThan2Half = new DistanceCondition(2.5f * map.GetCellSize(), true);
 	DistanceCondition* furtherThan4 = new DistanceCondition(4.0f * map.GetCellSize(), false);
 	DistanceCondition* closerThanOne = new DistanceCondition(1.0f * map.GetCellSize(), true);
 	DistanceCondition* furtherThanOne = new DistanceCondition(1.0f * map.GetCellSize(), false);
 	HealthCondition* targetDead = new HealthCondition(0.0f, false);
 	HealthCondition* dead = new HealthCondition(0.0f, true);
+	ORMultiCondition* targetDeadOrFurtherThan4 = new ORMultiCondition(true);
+	targetDeadOrFurtherThan4->AddCondition(furtherThan4);
+	targetDeadOrFurtherThan4->AddCondition(targetDead);
+	ORMultiCondition* furtherThanOneOrTargetDead = new ORMultiCondition(true);
+	furtherThanOneOrTargetDead->AddCondition(furtherThanOne);
+	furtherThanOneOrTargetDead->AddCondition(targetDead);
+	XORMultiCondition* targetDeadXorFurtherThanOne = new XORMultiCondition(targetDead ,furtherThanOne);
+	XORMultiCondition* closerThanOneXorTargetDead = new XORMultiCondition(closerThanOne, targetDead);
+	XORMultiCondition* cT2HXTD = new XORMultiCondition(closerThan2Half, targetDead);
+	TimerCondition* twoSec = new TimerCondition(2.0f);
+	RandomCondition* random = new RandomCondition(gen, 95);
 
 	//States
 	State* wanderState = new State(new WanderBehaviour());
 	State* followState = new State(new FollowBehaviour());
 	State* attackState = new State(new AttackBehaviour());
 	State* deadState = new State(new DeadBehaviour());
+	State* idleState = new State(new IdleBehaviour());
 	State* goToState = new State(new GotoBehaviour());
-	wanderState->AddTransition(closerThan2half, followState);
+	wanderState->AddTransition(cT2HXTD, followState);
 	wanderState->AddTransition(dead, deadState);
-	followState->AddTransition(targetDead, wanderState);
-	followState->AddTransition(closerThanOne, attackState);
-	followState->AddTransition(furtherThan4, wanderState);
+	//wanderState->AddTransition(random, idleState);
+	followState->AddTransition(targetDeadOrFurtherThan4, wanderState);
+	followState->AddTransition(closerThanOneXorTargetDead, attackState);
 	followState->AddTransition(dead, deadState);
-	attackState->AddTransition(targetDead, wanderState);
-	attackState->AddTransition(furtherThanOne, followState);
+	attackState->AddTransition(targetDeadXorFurtherThanOne, wanderState);
+	attackState->AddTransition(furtherThanOneOrTargetDead, followState);
 	attackState->AddTransition(dead, deadState);
+	//idleState->AddTransition(twoSec, wanderState);
 	goToState->AddTransition(dead, deadState);
 
 	//Player State Machine
@@ -209,10 +227,11 @@ int main()
 		std::string text = "HP: " + std::to_string(agent.GetHP());
 		DrawText(text.c_str(), 10, 10, 20, WHITE);
 
-		if (agent.GetHP() <= 0) DrawText("YOU HAVE DIED!", (screenWidth / 2) - 430, (screenHeight / 2) - 75, 100, BLACK);
+		if (agent.GetHP() <= 0) DrawText("YOU DEAD MON?", (screenWidth / 2) - 450, (screenHeight / 2) - 75, 100, BLACK);
 
 		EndDrawing();
 	}
 
 	CloseWindow();
+
 }

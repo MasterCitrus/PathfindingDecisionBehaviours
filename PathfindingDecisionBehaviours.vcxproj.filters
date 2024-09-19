@@ -114,8 +114,26 @@
     <ClCompile Include="HealthCondition.cpp">
       <Filter>Source Files\Conditions</Filter>
     </ClCompile>
+    <ClCompile Include="ORMultiCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="ANDMultiCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="XORMultiCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
     <ClCompile Include="MultiCondition.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomCondition.cpp">
+      <Filter>Source Files\Conditions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +217,24 @@
     </ClInclude>
     <ClInclude Include="MultiCondition.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ORMultiCondition.h">
+      <Filter>Header Files\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="ANDMultiCondition.h">
+      <Filter>Header Files\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="XORMultiCondition.h">
+      <Filter>Header Files\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerCondition.h">
+      <Filter>Header Files\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleBehaviour.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomCondition.h">
+      <Filter>Header Files\Condition</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

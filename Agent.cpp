@@ -23,7 +23,7 @@ void Agent::Draw()
 void Agent::Reset()
 {
 	m_pathAgent.GetPath().clear();
-	m_pathAgent.GetSmoothPath().clear();
+	//m_pathAgent.GetSmoothPath().clear();
 }
 
 void Agent::GoTo(glm::vec2 point)
