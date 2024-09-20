@@ -24,6 +24,7 @@
 #include <random>
 #include <iostream>
 
+
 int main()
 {
 	int screenWidth = 1280;
@@ -95,7 +96,7 @@ int main()
 	ORMultiCondition* furtherThanOneOrTargetDead = new ORMultiCondition(true);
 	furtherThanOneOrTargetDead->AddCondition(furtherThanOne);
 	furtherThanOneOrTargetDead->AddCondition(targetDead);
-	XORMultiCondition* targetDeadXorFurtherThanOne = new XORMultiCondition(targetDead ,furtherThanOne);
+	XORMultiCondition* targetDeadXorFurtherThanOne = new XORMultiCondition(targetDead, furtherThanOne);
 	XORMultiCondition* closerThanOneXorTargetDead = new XORMultiCondition(closerThanOne, targetDead);
 	XORMultiCondition* cT2HXTD = new XORMultiCondition(closerThan2Half, targetDead);
 	TimerCondition* twoSec = new TimerCondition(2.0f);
@@ -203,7 +204,7 @@ int main()
 		ClearBackground(GRAY);
 
 		map.Draw();
-		
+
 
 		if (IsKeyPressed(KEY_SPACE)) drawPaths = !drawPaths;
 
@@ -233,5 +234,5 @@ int main()
 	}
 
 	CloseWindow();
-
+	
 }
