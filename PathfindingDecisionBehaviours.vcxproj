@@ -150,7 +150,6 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="ANDMultiCondition.cpp" />
     <ClCompile Include="AttackBehaviour.cpp" />
-    <ClCompile Include="common\shapes.cc" />
     <ClCompile Include="DeadBehaviour.cpp" />
     <ClCompile Include="DistanceCondition.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
@@ -161,7 +160,6 @@
     <ClCompile Include="INavigatable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MultiCondition.cpp" />
-    <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NodeMap.cpp" />
     <ClCompile Include="ORMultiCondition.cpp" />
     <ClCompile Include="PathAgent.cpp" />
@@ -169,10 +167,6 @@
     <ClCompile Include="RandomCondition.cpp" />
     <ClCompile Include="SelectorBehaviour.cpp" />
     <ClCompile Include="State.cpp" />
-    <ClCompile Include="sweep\advancing_front.cc" />
-    <ClCompile Include="sweep\cdt.cc" />
-    <ClCompile Include="sweep\sweep.cc" />
-    <ClCompile Include="sweep\sweep_context.cc" />
     <ClCompile Include="TimerCondition.cpp" />
     <ClCompile Include="UtilityAI.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
@@ -183,8 +177,6 @@
     <ClInclude Include="ANDMultiCondition.h" />
     <ClInclude Include="AttackBehaviour.h" />
     <ClInclude Include="Behaviour.h" />
-    <ClInclude Include="common\shapes.h" />
-    <ClInclude Include="common\utils.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="DeadBehaviour.h" />
     <ClInclude Include="DistanceCondition.h" />
@@ -195,19 +187,13 @@
     <ClInclude Include="IdleBehaviour.h" />
     <ClInclude Include="INavigatable.h" />
     <ClInclude Include="MultiCondition.h" />
-    <ClInclude Include="NavMesh.h" />
     <ClInclude Include="NodeMap.h" />
     <ClInclude Include="ORMultiCondition.h" />
     <ClInclude Include="PathAgent.h" />
     <ClInclude Include="Pathfinding.h" />
-    <ClInclude Include="poly2tri.h" />
     <ClInclude Include="RandomCondition.h" />
     <ClInclude Include="SelectorBehaviour.h" />
     <ClInclude Include="State.h" />
-    <ClInclude Include="sweep\advancing_front.h" />
-    <ClInclude Include="sweep\cdt.h" />
-    <ClInclude Include="sweep\sweep.h" />
-    <ClInclude Include="sweep\sweep_context.h" />
     <ClInclude Include="TimerCondition.h" />
     <ClInclude Include="UtilityAI.h" />
     <ClInclude Include="WanderBehaviour.h" />

@@ -10,4 +10,5 @@ bool ANDMultiCondition::IsTrue(Agent* agent)
         if (test != result) return false;
     }
     if (trueCount == conditions.size()) return true;
+    else return false;
 }

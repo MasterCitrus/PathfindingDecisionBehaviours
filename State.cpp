@@ -1,6 +1,7 @@
 #include "State.h"
 #include "Agent.h"
 #include "Behaviour.h"
+#include "Condition.h"
 
 
 State::State(Behaviour* behaviour)

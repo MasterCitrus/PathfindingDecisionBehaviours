@@ -17,6 +17,8 @@ class NodeMap : public INavigatable
 	Node** m_nodes;
 
 public:
+	~NodeMap();
+
 	void Intialise(std::vector<std::string> asciiMap, int cellSize);
 
 	//Node functions
