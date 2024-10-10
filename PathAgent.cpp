@@ -5,62 +5,31 @@
 
 void PathAgent::Update(float deltaTime)
 {
-	if (usingNavMesh)
-	{
-		if (m_smoothPath.empty()) return;
+	if (m_path.empty()) return;
 
-		float distance = glm::distance(m_position, m_currentNodePosition);
-		glm::vec2 normal = glm::normalize(m_currentNodePosition - m_position);
-		distance -= m_speed * deltaTime;
-		if (distance > 0)
-		{
-			m_position += m_speed * deltaTime * normal;
-		}
-		else
-		{
-			//m_currentNode = *(m_path.begin() + m_currentIndex);
-			m_currentIndex++;
-			if (m_currentIndex >= m_smoothPath.size())
-			{
-				m_position = m_currentNodePosition;
-				m_smoothPath.clear();
-				m_currentNode = m_path.back();
-			}
-			else
-			{
-				m_currentNodePosition = m_smoothPath[m_currentIndex];
-				//m_currentNode = *(m_path.begin() + m_currentIndex);
-			}
-		}
+	Node* node = m_nodeMap->GetClosestNode(GetPosition());
+	if (node) m_currentNode = node;
+
+	Node* nextNode = m_path.begin() + m_currentIndex == m_path.end() ? m_path.back() : *(m_path.begin() + m_currentIndex);
+	float distance = glm::distance(m_position, nextNode->position);
+	glm::vec2 normal = glm::normalize(nextNode->position - m_position);
+	distance -= m_speed * deltaTime;
+	if (distance > 0)
+	{
+		m_position += m_speed * deltaTime * normal;
 	}
 	else
 	{
-		if (m_path.empty()) return;
-
-		Node* node = m_nodeMap->GetClosestNode(GetPosition());
-		if (node) m_currentNode = node;
-
-		Node* nextNode = m_path.begin() + m_currentIndex == m_path.end() ? m_path.back() : *(m_path.begin() + m_currentIndex);
-		float distance = glm::distance(m_position, nextNode->position);
-		glm::vec2 normal = glm::normalize(nextNode->position - m_position);
-		distance -= m_speed * deltaTime;
-		if (distance > 0)
+		m_currentNode = nextNode;
+		if (m_currentIndex >= m_path.size())
 		{
-			m_position += m_speed * deltaTime * normal;
+			m_path.clear();
+			m_position = m_currentNode->position;
 		}
 		else
 		{
-			m_currentNode = nextNode;
-			if (m_currentIndex >= m_path.size())
-			{
-				m_path.clear();
-				m_position = m_currentNode->position;
-			}
-			else
-			{
-				m_currentIndex++;
+			m_currentIndex++;
 				
-			}
 		}
 	}
 }

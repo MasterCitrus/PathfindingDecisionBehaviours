@@ -31,6 +31,5 @@ private:
 	Node* m_currentNode;
 
 	float m_speed;
-	bool usingNavMesh = false;
 };
 
