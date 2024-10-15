@@ -5,7 +5,7 @@
 
 NodeMap::~NodeMap()
 {
-	for (int i = 0; i < m_height + m_width; ++i)
+	for (int i = 0; i < m_height * m_width; ++i)
 	{
 		delete m_nodes[i];
 	}
