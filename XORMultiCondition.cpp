@@ -2,8 +2,8 @@
 
 XORMultiCondition::~XORMultiCondition()
 {
-    delete condition;
-    delete condition2;
+    //delete condition;
+    //delete condition2;
 }
 
 bool XORMultiCondition::IsTrue(Agent* agent)

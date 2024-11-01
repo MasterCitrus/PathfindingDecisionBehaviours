@@ -85,66 +85,73 @@ int main()
 		Node* start = map.GetNode(1, 1);
 
 		//Conditions
-		DistanceCondition* closerThan2Half = new DistanceCondition(2.5f * map.GetCellSize(), true);
-		DistanceCondition* furtherThan4 = new DistanceCondition(4.0f * map.GetCellSize(), false);
-		DistanceCondition* closerThanOne = new DistanceCondition(1.0f * map.GetCellSize(), true);
-		DistanceCondition* furtherThanOne = new DistanceCondition(1.0f * map.GetCellSize(), false);
-		HealthCondition* targetDead = new HealthCondition(0.0f, false);
-		HealthCondition* dead = new HealthCondition(0.0f, true);
-		ORMultiCondition* targetDeadOrFurtherThan4 = new ORMultiCondition(true);
-		targetDeadOrFurtherThan4->AddCondition(furtherThan4);
-		targetDeadOrFurtherThan4->AddCondition(targetDead);
-		ORMultiCondition* furtherThanOneOrTargetDead = new ORMultiCondition(true);
-		furtherThanOneOrTargetDead->AddCondition(furtherThanOne);
-		furtherThanOneOrTargetDead->AddCondition(targetDead);
-		XORMultiCondition* targetDeadXorFurtherThanOne = new XORMultiCondition(targetDead, furtherThanOne);
-		XORMultiCondition* closerThanOneXorTargetDead = new XORMultiCondition(closerThanOne, targetDead);
-		XORMultiCondition* cT2HXTD = new XORMultiCondition(closerThan2Half, targetDead);
+		DistanceCondition closerThan2Half = DistanceCondition(2.5f * map.GetCellSize(), true);
+		DistanceCondition furtherThan4 = DistanceCondition(4.0f * map.GetCellSize(), false);
+		DistanceCondition closerThanOne = DistanceCondition(1.0f * map.GetCellSize(), true);
+		DistanceCondition furtherThanOne = DistanceCondition(1.0f * map.GetCellSize(), false);
+		HealthCondition targetDead = HealthCondition(0.0f, false);
+		HealthCondition dead = HealthCondition(0.0f, true);
+		ORMultiCondition targetDeadOrFurtherThan4 = ORMultiCondition(true);
+		targetDeadOrFurtherThan4.AddCondition(&furtherThan4);
+		targetDeadOrFurtherThan4.AddCondition(&targetDead);
+		ORMultiCondition furtherThanOneOrTargetDead = ORMultiCondition(true);
+		furtherThanOneOrTargetDead.AddCondition(&furtherThanOne);
+		furtherThanOneOrTargetDead.AddCondition(&targetDead);
+		XORMultiCondition targetDeadXorFurtherThanOne = XORMultiCondition(&targetDead, &furtherThanOne);
+		XORMultiCondition closerThanOneXorTargetDead = XORMultiCondition(&closerThanOne, &targetDead);
+		XORMultiCondition cT2HXTD = XORMultiCondition(&closerThan2Half, &targetDead);
 		//TimerCondition* twoSec = new TimerCondition(2.0f);
 		//RandomCondition* random = new RandomCondition(gen, 95);
 
+		//Beahviours
+		WanderBehaviour wanderBehaviour;
+		FollowBehaviour followBehaviour;
+		AttackBehaviour attackBehaviour;
+		DeadBehaviour deadBehaviour;
+		GotoBehaviour gotoBehaviour;
+
 		//States
-		State* wanderState = new State(new WanderBehaviour());
-		State* followState = new State(new FollowBehaviour());
-		State* attackState = new State(new AttackBehaviour());
-		State* deadState = new State(new DeadBehaviour());
+		State wanderState(&wanderBehaviour);
+		State followState(&followBehaviour);
+		State attackState(&attackBehaviour);
+		State deadState(&deadBehaviour);
 		//State* idleState = new State(new IdleBehaviour());
-		State* goToState = new State(new GotoBehaviour());
-		wanderState->AddTransition(cT2HXTD, followState);
-		wanderState->AddTransition(dead, deadState);
+		State goToState = State(&gotoBehaviour);
+		wanderState.AddTransition(&cT2HXTD, &followState);
+		wanderState.AddTransition(&dead, &deadState);
 		//wanderState->AddTransition(random, idleState);
-		followState->AddTransition(targetDeadOrFurtherThan4, wanderState);
-		followState->AddTransition(closerThanOneXorTargetDead, attackState);
-		followState->AddTransition(dead, deadState);
-		attackState->AddTransition(targetDeadXorFurtherThanOne, wanderState);
-		attackState->AddTransition(furtherThanOneOrTargetDead, followState);
-		attackState->AddTransition(dead, deadState);
 		//idleState->AddTransition(twoSec, wanderState);
-		goToState->AddTransition(dead, deadState);
+		followState.AddTransition(&targetDeadOrFurtherThan4, &wanderState);
+		followState.AddTransition(&closerThanOneXorTargetDead, &attackState);
+		followState.AddTransition(&dead, &deadState);
+		attackState.AddTransition(&targetDeadXorFurtherThanOne, &wanderState);
+		attackState.AddTransition(&furtherThanOneOrTargetDead, &followState);
+		attackState.AddTransition(&dead, &deadState);
+		goToState.AddTransition(&dead, &deadState);
 
 		//Player State Machine
-		FiniteStateMachine* playerFSM = new FiniteStateMachine(goToState);
-		playerFSM->AddState(goToState);
-		playerFSM->AddState(deadState);
+		FiniteStateMachine* playerFSM = new FiniteStateMachine(&goToState);
+		playerFSM->AddState(&goToState);
+		playerFSM->AddState(&deadState);
 
 		//AI Finite State Machines
-		FiniteStateMachine* fsm = new FiniteStateMachine(wanderState);
-		fsm->AddState(wanderState);
-		fsm->AddState(followState);
-		fsm->AddState(attackState);
-		fsm->AddState(deadState);
+		FiniteStateMachine* fsm = new FiniteStateMachine(&wanderState);
+		fsm->AddState(&wanderState);
+		fsm->AddState(&followState);
+		fsm->AddState(&attackState);
+		fsm->AddState(&deadState);
 
-		FiniteStateMachine* fsm2 = new FiniteStateMachine(wanderState);
-		fsm2->AddState(wanderState);
-		fsm2->AddState(followState);
-		fsm2->AddState(attackState);
-		fsm2->AddState(deadState);
+		FiniteStateMachine* fsm2 = new FiniteStateMachine(&wanderState);
+		fsm2->AddState(&wanderState);
+		fsm2->AddState(&followState);
+		fsm2->AddState(&attackState);
+		fsm2->AddState(&deadState);
 
-		FiniteStateMachine* fsm3 = new FiniteStateMachine(wanderState);
-		fsm3->AddState(wanderState);
-		fsm3->AddState(followState);
-		fsm3->AddState(attackState);
-		fsm3->AddState(deadState);
+		FiniteStateMachine* fsm3 = new FiniteStateMachine(&wanderState);
+		fsm3->AddState(&wanderState);
+		fsm3->AddState(&followState);
+		fsm3->AddState(&attackState);
+		fsm3->AddState(&deadState);
 
 		//Utility AI
 		UtilityAI* utilityAI = new UtilityAI();
@@ -236,6 +243,6 @@ int main()
 
 		CloseWindow();
 
-		delete utilityAI;
+		//delete utilityAI;
 	}
 }

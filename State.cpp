@@ -11,9 +11,9 @@ State::State(Behaviour* behaviour)
 
 State::~State()
 {
-	for (Behaviour* b : m_behaviours) delete b;
+	//for (Behaviour* b : m_behaviours) delete b;
 
-	for (Transition t : m_transitions) delete t.condition;
+	//for (Transition t : m_transitions) delete t.condition;
 }
 
 void State::Enter(Agent* agent)

@@ -4,7 +4,7 @@
 
 FiniteStateMachine::~FiniteStateMachine()
 {
-	for (State* s : m_states) delete s;
+	//for (State* s : m_states) delete s;
 }
 
 void FiniteStateMachine::Update(Agent* agent, float deltaTime)

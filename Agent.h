@@ -10,7 +10,7 @@ class Agent
 public:
 	Agent() {}
 	Agent(INavigatable* nodeMap, Behaviour* behaviour);
-	~Agent() {}//delete m_current; }
+	~Agent() { delete m_current; }
 
 	void Update(float deltaTime);
 	void Draw();
@@ -41,7 +41,7 @@ private:
 	INavigatable* m_nodeMap;
 	Color m_colour;
 	Agent* m_target;
-	int m_hp;
-	int m_damage;
+	float m_hp;
+	float m_damage;
 };
 

@@ -2,7 +2,7 @@
 
 MultiCondition::~MultiCondition()
 {
-	for (auto& c : conditions) delete c;
+	//for (auto& c : conditions) delete c;
 }
 
 void MultiCondition::AddCondition(Condition* condition)
